@@ -1,0 +1,103 @@
+﻿<Window x:Class="ShapeDrafter.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ShapeDrafter"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="MainWindow"
+        Width="1500"
+        Height="1100"
+        Topmost="True"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Background="#222">
+    <Grid Margin="15"
+          Background="#2229">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="4*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Button Grid.Row="0" Grid.Column="0" Margin="5" Click="ButtonClick" Name="Button1" Tag="1" ToolTip="Create Polygon">
+                <StackPanel>
+                    <Image Source="Resources/addsquare.png" />
+                </StackPanel>
+            </Button>
+            <Button Grid.Row="0" Grid.Column="1" Margin="5" Click="ButtonClick" Name="Button2" Tag="2" ToolTip="Create Circle">
+                <StackPanel>
+                    <Image Source="Resources/addcircle.png" />
+                </StackPanel>
+            </Button>
+            <Button Grid.Row="1" Grid.Column="0" Margin="5" Click="ButtonClick" Name="Button3" Tag="3" ToolTip="Delete vertex or restriction">
+                <StackPanel>
+                    <Image Source="Resources/delete.png" />
+                </StackPanel>
+            </Button>
+            <Button Grid.Row="1" Grid.Column="1" Margin="5" Click="ButtonClick" Name="Button4" Tag="4" ToolTip="Create Vertex">
+                <StackPanel>
+                    <Image Source="Resources/record.png" />
+                </StackPanel>
+            </Button>
+            <Button Grid.Row="2" Grid.Column="0" Margin="5" Click="ButtonClick" Name="Button5" Tag="5" ToolTip="Move Vertex, Edge or Radius">
+                <StackPanel>
+                    <Image Source="Resources/move.png" />
+                </StackPanel>
+            </Button>
+            <Button Grid.Row="2" Grid.Column="1" Margin="6" Click="ButtonClick" Name="Button6" Tag="6" ToolTip="Move whole shape">
+                <StackPanel>
+                    <Image Source="Resources/move_all.png" />
+                </StackPanel>
+            </Button>
+            <Button Grid.Row="3" Grid.Column="0" Margin="6" Click="ButtonClick" Name="Button7" Tag="7" ToolTip="Make edges parallel">
+                <StackPanel>
+                    <Image Source="Resources/parallel.png" />
+                </StackPanel>
+            </Button>
+            <Button Grid.Row="3" Grid.Column="1" Margin="6" Click="ButtonClick" Name="Button8" Tag="8" ToolTip="Make edges perpendicular">
+                <StackPanel>
+                    <Image Source="Resources/perpendicular.png" />
+                </StackPanel>
+            </Button>
+            <Button Grid.Row="4" Grid.Column="0" Margin="6" Click="ButtonClick" Name="Button9" Tag="9" ToolTip="Clear screen">
+                <StackPanel>
+                    <Image Source="Resources/expand.png" />
+                </StackPanel>
+            </Button>
+            <StackPanel Grid.Row="4" Grid.Column="1" Margin="6" >
+                <xctk:ColorPicker Height="50"
+                                  VerticalAlignment="Top"
+                                  SelectedColorChanged="ColorPicker_OnSelectedColorChanged" />
+            </StackPanel>
+            
+            <Button Grid.Row="5" Grid.Column="0" Margin="6" Click="ButtonClick" Name="Button10" Tag="10" ToolTip="Delete Polygon or Circle">
+                <StackPanel>
+                    <Image Source="Resources/delete_whole.png" />
+                </StackPanel>
+            </Button>
+        </Grid>
+
+        <Image Grid.Column="1"
+               Width="1100"
+               Height="950"
+               Name="PaintSurface"
+               MouseLeftButtonDown="OnMouseClicked"
+               MouseLeftButtonUp="OnMouseUnclicked"
+               MouseMove="OnMouseMove" />
+    </Grid>
+</Window>
