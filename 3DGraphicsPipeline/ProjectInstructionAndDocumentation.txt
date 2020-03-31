@@ -1,0 +1,135 @@
+W folderze "ProjectFiles" zapisałem różne tekstury, bumpmapy oraz
+przykładową scenę "samplescene.xml", którą zalecałbym wczytać na
+początku przy pomocy przycisku "Load Scene".
+
+Co do pańskiego zastrzeżenia:
+"Dodatkowo przy odpowiednio dużym przybliżeniu na stożek obcinana jest jego przednia ściana (załącznik).
+Nie jest obcięta przez bliską płaszczyznę obcinania, więc prawdopodobnie co innego jest winne."
+
+Przy testowaniu tego włączałem i wyłączałem "backface culling", i odniosłem wrażenie,
+że jednak chodzi o bliską płaszczyznę obcinania, choć mogę się mylić.
+Może to być też coś związanego z windingiem trójkątów.
+
+
+
+1. Instrukcja obsługi
+Sterowanie pozycją kamery: W - góra, S - dół, A - lewo, D - prawo, R -
+do przodu, F - do tyłu
+Obracanie kamerą: należy w miejscu wyświetlania się sceny przejechać
+myszką w którąś ze stron z wciśniętym lewym przyciskiem myszy
+Zmienianie parametrów poszczególnych, figur, świateł i kamer jest
+raczej intuicyjne, wystarczy wpisać wartości w odpowiednie miejsca.
+Tworzenie obiektów przy pomocy przycisku "Create *", usuwanie przy
+pomocy przycisku "Delete" gdy obiekt jest zaznaczony.
+Opcje globalne wystarczy zaznaczyć lub odznaczyć.
+Zapisanie sceny do pliku - przycisk "Save Scene", wczytanie sceny z
+pliku: przycisk "Load Scene"
+Wczytanie tekstury - przycisk "Load texture", wczytanie bumpmapy -
+przycisk "Load BumpMap"
+
+
+
+2.Lokalizacja funkcjonalności
+Wymagania aplikacji
+• Edycja sceny:
+– Dodawanie, edycja i usuwanie ze sceny figur geometrycznych złożonych z siatki trójkątów.
+/MainWindow.Figure.cs - lines 18, 26, 85
+/Figures/Cube.cs - line 57
+/Figures/Cone.cs - line 60
+/Figures/Cylinder.cs - line 57
+/Figures/Sphere.cs - line 57
+
+– Edycja wybranych figur poprzez zmianę ich parametrów (parametry podane w nawiasach):
+∗ Prostopadłościan (osobno długość każdego z boków).
+/MainWindow.Figure.cs - lines 185, 240
+
+∗ Kula (promień, liczba podziałów siatki w obie strony).
+/MainWindow.Figure.cs - lines 185, 240
+
+∗ Walec (wysokość, promień, liczba podziałów siatki).
+/MainWindow.Figure.cs - lines 185, 240
+
+∗ Stożek (wysokość, promień, liczba podziałów siatki).
+/MainWindow.Figure.cs - lines 185, 240
+
+– Dodawanie i usuwanie świateł punktowych.
+/MainWindow.Light.cs - lines 20, 33, 45
+
+∗ Edycja parametrów światła (kolor, intensywność, zasięg (attenuation)).
+/MainWindow.Light.cs - line 73
+/MainWindow.HelperMethods.cs - line 140
+
+– Dodawanie i usuwanie kamer.
+/MainWindow.Camera.cs - lines 16, 47
+
+∗ Zawsze minimum 1 kamera na scenie.
+/MainWindow.Camera.cs - line 49
+
+∗ Przełączenie się pomiędzy utworzonymi kamerami.
+/MainWindow.Camera.cs - line 28
+
+∗ Obsługa kamery myszką (przesuwanie, obracanie w górę/dół oraz prawo/lewo).
+/MainWindow.HelperMethods.cs - line 17
+
+∗ Zmiana parametrów kamery (field of view, przednia i tylna płaszczyzna obcinania).
+/MainWindow.Camera.cs - line 58
+
+– Edycja figur na scenie: ∗ Przesuwanie, ∗ Skalowanie, ∗ Obracanie.
+/MainWindow.Figure.cs - line 142
+
+– Lista obiektów na scenie (figur, świateł, kamer).
+/MainWindow.xaml - line 107, 130, 163
+/MainWindow.Figure.cs - line 15
+/MainWindow.Camera.cs - line 12
+/MainWindow.Light.cs - line 16
+
+– Wczytywanie i zapisywanie sceny do plików (format dowolny).
+/MainWindow.Serialization - lines 17, 30, 57
+
+• Potok renderowania:
+– Rasteryzacja tylko przy pomocy funkcji rysowania pikseli.
+/DrawingStuff.cs - line 94
+
+– Wypełnianie algorytmem skan-linii (można użyć funkcji z poprzednich projektów).
+/MathOperations/Renderer.cs - line 81
+
+– Obcinanie niewidocznych części trójkątów wychodzących poza pole widzenia kamery(dowolny algorytm np. algorytm Cyrusa-Becka).
+/MathOperations/Clipping.cs
+
+– Algorytm obcinania ścian tylnych (backface culling). ∗ Możliwość włączenia i wyłączenia obcinania ścian tylnych.
+/MainWindow.MainLoop.cs - line 74
+
+– Interpolacja atrybutów wierzchołków (wektor normalny, wektor styczny, wektor binormalny, współrzędne tekstury) z korekcją perspektywy.
+∗ Możliwość włączenia i wyłączenia korekcji perspektywy.
+/MathOperations/Renderer.cs - line 42
+
+– Przełączanie się pomiędzy wypełnianiem trójkątów a rysowaniem samych krawędzi.
+/MathOperations/Renderer.cs - lines 120, 161
+
+– Algorytm buforowania głębi (z-buffering). ∗ Możliwość włączenia i wyłączenia buforowania głębi.
+/DrawingStuff.cs - line 104
+
+• Cieniowanie trójkątów
+– Cieniowanie Phonga
+– Model oświetlenia Phonga.
+/MathOperations/Lightning.cs - line 26
+
+– Teksturowanie.
+/MathOperations/Lightning.cs - line 34
+
+– Mapowanie normalnych (normal mapping).
+/Graphics/Texture.cs - line 30
+/Models/Vector4.cs - line 88
+
+• Inne
+– Własne klasy macierzy i wektorów (wraz z potrzebnymi metodami).
+/MathOperations/Matrix.cs
+/Models/Vector4.cs
+/Models/Vector3.cs
+
+– Skalowalne okno aplikacji - przeliczanie stosunku wysokość-szerokość w wyliczaniu
+macierzy projekcji.
+/MainWindow.xaml.cs - line 56
+
+– Wyświetlanie liczby klatek na sekundę.
+/MainWindow.MainLoop.cs - line 40

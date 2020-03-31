@@ -1,0 +1,178 @@
+﻿<Window x:Class="ShapeDrafter.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ShapeDrafter"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="MainWindow"
+        Width="800"
+        Height="600"
+        Topmost="False"
+        ResizeMode="CanResize"
+        WindowStartupLocation="CenterScreen"
+        Background="#222">
+    <Grid Margin="15"
+          Background="#ffdead">
+        <Grid.ColumnDefinitions> <ColumnDefinition Width="4*" /> <ColumnDefinition Width="6*" /> </Grid.ColumnDefinitions>
+        
+        <ScrollViewer Grid.Column="0">
+        <StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="FPS : " FontSize="14"></TextBlock>
+                <TextBlock Name="FpsBlock" FontSize="14"></TextBlock>
+            </StackPanel>
+            <GroupBox Header="Global settings">
+                <Grid>
+                    <Grid.ColumnDefinitions> <ColumnDefinition Width="1.3*"/> <ColumnDefinition Width="*"/> <ColumnDefinition Width="*"/> </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions> <RowDefinition Height="*"/> <RowDefinition Height="*"/> </Grid.RowDefinitions>
+                    <StackPanel Grid.Column="0" Grid.RowSpan="2">
+                        <CheckBox Content="Perspective" Tag="0" Click="GlobalOptionChanged" IsChecked="True"></CheckBox>
+                        <CheckBox Content="Filling" Tag="1" Click="GlobalOptionChanged" IsChecked="True"></CheckBox>
+                        <CheckBox Content="Backface culling" Tag="2" Click="GlobalOptionChanged" IsChecked="True"></CheckBox>
+                        <CheckBox Content="Z-buffering" Tag="3" Click="GlobalOptionChanged" IsChecked="True"></CheckBox>
+                    </StackPanel>
+                    <Button Grid.Row="0" Grid.Column="1" Click="LoadSceneFileClick">Load scene</Button>
+                    <Button Grid.Row="0" Grid.Column="2" Click="SaveSceneFileClick">Save scene</Button>
+                    <Button Grid.Row="1" Grid.Column="1" Click="LoadTextureClick">Load Texture</Button>
+                    <Button Grid.Row="1" Grid.Column="2" Click="LoadBumpMapClick" FontSize="11">Load BumpMap</Button>
+                </Grid>
+            </GroupBox>
+            <GroupBox Header="Create and manage figures" BorderBrush="Black">
+                <StackPanel>
+                    <Grid Height="50">
+                        <Grid.ColumnDefinitions> <ColumnDefinition Width="*"/> <ColumnDefinition Width="*"/> <ColumnDefinition Width="*"/> <ColumnDefinition Width="*"/> <ColumnDefinition Width="*"/> </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0" Tag="0" Click="CreateShapeClick"> <Image Source="Resources/cube.png"></Image> </Button>
+                            <Button Grid.Column="1" Tag="1" Click="CreateShapeClick"> <Image Source="Resources/sphere.png"></Image> </Button>
+                            <Button Grid.Column="2" Tag="2" Click="CreateShapeClick"> <Image Source="Resources/cylinder.png"></Image> </Button>
+                            <Button Grid.Column="3" Tag="3" Click="CreateShapeClick"> <Image Source="Resources/cone.png"></Image> </Button>
+                            <Button Grid.Column="4" Tag="4" Click="DeleteShapeClick" Content="Delete"> </Button>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions> <ColumnDefinition Width="*"/> <ColumnDefinition Width="*"/> <ColumnDefinition Width="*"/> <ColumnDefinition Width="*"/> </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions> <RowDefinition Height="*"/> <RowDefinition Height="*"/> <RowDefinition Height="*"/> <RowDefinition Height="*"/> </Grid.RowDefinitions>
+                        <TextBlock Text="Translation" Grid.Column="0" Grid.Row="1" />
+                        <TextBlock Text="Scale" Grid.Column="0" Grid.Row="2" />
+                        <TextBlock Text="Rotation" Grid.Column="0" Grid.Row="3" />
+                        <TextBlock Text="X" TextAlignment="Center" Grid.Column="1" Grid.Row="0" />
+                        <TextBlock Text="Y" TextAlignment="Center" Grid.Column="2" Grid.Row="0" />
+                        <TextBlock Text="Z" TextAlignment="Center" Grid.Column="3" Grid.Row="0" />
+                        <xctk:DoubleUpDown Name="BasicTranslationX" Grid.Column="1" Grid.Row="1" ValueChanged="BasicParameterChanged" Tag="0" Value="0"/>
+                        <xctk:DoubleUpDown Name="BasicTranslationY" Grid.Column="2" Grid.Row="1" ValueChanged="BasicParameterChanged" Tag="1" Value="0"/>
+                        <xctk:DoubleUpDown Name="BasicTranslationZ" Grid.Column="3" Grid.Row="1" ValueChanged="BasicParameterChanged" Tag="2" Value="0"/>
+                        <xctk:DoubleUpDown Name="BasicScaleX" Grid.Column="1" Grid.Row="2" ValueChanged="BasicParameterChanged" Tag="3" Value="1"/>
+                        <xctk:DoubleUpDown Name="BasicScaleY" Grid.Column="2" Grid.Row="2" ValueChanged="BasicParameterChanged" Tag="4" Value="1"/>
+                        <xctk:DoubleUpDown Name="BasicScaleZ" Grid.Column="3" Grid.Row="2" ValueChanged="BasicParameterChanged" Tag="5" Value="1"/>
+                        <xctk:DoubleUpDown Name="BasicRotationX" Grid.Column="1" Grid.Row="3" ValueChanged="BasicParameterChanged" Tag="6" Value="0" Increment="0.3"/>
+                        <xctk:DoubleUpDown Name="BasicRotationY" Grid.Column="2" Grid.Row="3" ValueChanged="BasicParameterChanged" Tag="7" Value="0" Increment="0.3"/>
+                        <xctk:DoubleUpDown Name="BasicRotationZ" Grid.Column="3" Grid.Row="3" ValueChanged="BasicParameterChanged" Tag="8" Value="0" Increment="0.3"/>
+                    </Grid>
+                    
+                    <GroupBox Header="Specific Figure Configuration">
+                        <StackPanel>
+                            <Grid Name="CubePanel">
+                                <Grid.ColumnDefinitions> <ColumnDefinition Width="*"/> <ColumnDefinition Width="*"/> <ColumnDefinition Width="*"/> </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions> <RowDefinition Height="*"/> <RowDefinition Height="*"/> </Grid.RowDefinitions>
+                                <TextBlock Text="X Length" TextAlignment="Center" Grid.Column="0" Grid.Row="0" />
+                                <TextBlock Text="Y Length" TextAlignment="Center" Grid.Column="1" Grid.Row="0" />
+                                <TextBlock Text="Z Length" TextAlignment="Center" Grid.Column="2" Grid.Row="0" />
+                                <xctk:DoubleUpDown Name="CubePanelX" Grid.Column="0" Grid.Row="1" ValueChanged="DoubleParameterChanged" Tag="10" />
+                                <xctk:DoubleUpDown Name="CubePanelY" Grid.Column="1" Grid.Row="1" ValueChanged="DoubleParameterChanged" Tag="11" Value="0.5"/>
+                                <xctk:DoubleUpDown Name="CubePanelZ" Grid.Column="2" Grid.Row="1" ValueChanged="DoubleParameterChanged" Tag="12" Value="0.5"/>
+                            </Grid>
+                            <Grid Name="SpherePanel" Visibility="Collapsed">
+                                <Grid.ColumnDefinitions> <ColumnDefinition Width="*"/> <ColumnDefinition Width="*"/> <ColumnDefinition Width="*"/> </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions> <RowDefinition Height="*"/> <RowDefinition Height="*"/> </Grid.RowDefinitions>
+                                <TextBlock Text="Radius" TextAlignment="Center" Grid.Column="0" Grid.Row="0" />
+                                <TextBlock Text="Psi Divide Count" TextAlignment="Center" Grid.Column="1" Grid.Row="0" />
+                                <TextBlock Text="Phi Divide Count" TextAlignment="Center" Grid.Column="2" Grid.Row="0" />
+                                <xctk:DoubleUpDown  Name="SpherePanelRadius" Grid.Column="0" Grid.Row="1" ValueChanged="DoubleParameterChanged" Tag="20" Minimum="0"/>
+                                <xctk:IntegerUpDown Name="SpherePanelPsi" Grid.Column="1" Grid.Row="1" ValueChanged="IntParameterChanged" Tag="21" Minimum="2"/>
+                                <xctk:IntegerUpDown Name="SpherePanelPhi" Grid.Column="2" Grid.Row="1" ValueChanged="IntParameterChanged" Tag="22" Minimum="2"/>
+                            </Grid>
+                            <Grid Name="CylinderPanel" Visibility="Collapsed">
+                                <Grid.ColumnDefinitions> <ColumnDefinition Width="*"/> <ColumnDefinition Width="*"/> <ColumnDefinition Width="*"/> </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions> <RowDefinition Height="*"/> <RowDefinition Height="*"/> </Grid.RowDefinitions>
+                                <TextBlock Text="Height" TextAlignment="Center" Grid.Column="0" Grid.Row="0" />
+                                <TextBlock Text="Radius" TextAlignment="Center" Grid.Column="1" Grid.Row="0" />
+                                <TextBlock Text="Phi Divide Count" TextAlignment="Center" Grid.Column="2" Grid.Row="0" />
+                                <xctk:DoubleUpDown  Name="CylinderPanelHeight" Grid.Column="0" Grid.Row="1" ValueChanged="DoubleParameterChanged" Tag="30" Minimum="0"/>
+                                <xctk:DoubleUpDown  Name="CylinderPanelRadius" Grid.Column="1" Grid.Row="1" ValueChanged="DoubleParameterChanged" Tag="31" Minimum="0"/>
+                                <xctk:IntegerUpDown Name="CylinderPanelPhi" Grid.Column="2" Grid.Row="1" ValueChanged="IntParameterChanged" Tag="32" Minimum="3"/>
+                            </Grid>
+                        </StackPanel>
+                    </GroupBox>
+                    
+                    <WrapPanel Name="WrapPanel" Background="Aquamarine" ItemHeight="51" ItemWidth="51"/>
+                </StackPanel>
+            </GroupBox>
+            
+            <GroupBox Header="Create and manage cameras" BorderBrush="Black">
+                <StackPanel>
+                    <Grid Height="30">
+                        <Grid.ColumnDefinitions> <ColumnDefinition Width="*"/> <ColumnDefinition Width="*"/> </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0" Tag="0" Click="CreateCameraClick" Content="Create Camera"> </Button>
+                            <Button Grid.Column="1" Tag="1" Click="DeleteCameraClick" Content="Delete Camera"> </Button>
+                    </Grid>
+                    <GroupBox Header="Camera Configuration">
+                            <Grid Name="CameraPanel" Visibility="Visible">
+                                <Grid.ColumnDefinitions> <ColumnDefinition Width="*"/> <ColumnDefinition Width="*"/> <ColumnDefinition Width="*"/> </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions> <RowDefinition Height="*"/> <RowDefinition Height="*"/> </Grid.RowDefinitions>
+                                <TextBlock Text="FOV" TextAlignment="Center" Grid.Column="0" Grid.Row="0" />
+                                <TextBlock Text="Near Clip Plane" TextAlignment="Center" Grid.Column="1" Grid.Row="0" />
+                                <TextBlock Text="Far Clip Plane" TextAlignment="Center" Grid.Column="2" Grid.Row="0" />
+                                <xctk:DoubleUpDown Name="CameraPanelFov" Grid.Column="0" Grid.Row="1" ValueChanged="CameraParameterChanged" Tag="0" Minimum="0" Maximum="180"/>
+                                <xctk:DoubleUpDown Name="CameraPanelNear" Grid.Column="1" Grid.Row="1" ValueChanged="CameraParameterChanged" Tag="1" Minimum="0" />
+                                <xctk:DoubleUpDown Name="CameraPanelFar" Grid.Column="2" Grid.Row="1" ValueChanged="CameraParameterChanged" Tag="2" Minimum="0" />
+                            </Grid>
+                    </GroupBox>
+                    <WrapPanel Name="WrapPanelCamera" Background="Peru" ItemHeight="51" ItemWidth="51"/>
+                </StackPanel>
+            </GroupBox>
+            
+            <GroupBox Header="Create and manage lights" BorderBrush="Black">
+                <StackPanel>
+                    <Grid Height="30">
+                        <Grid.ColumnDefinitions> <ColumnDefinition Width="*"/> <ColumnDefinition Width="*"/> </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0" Tag="0" Click="CreateLightClick" Content="Create Light"> </Button>
+                            <Button Grid.Column="1" Tag="1" Click="DeleteLightClick" Content="Delete Light"> </Button>
+                    </Grid>
+                    <GroupBox Header="Light Configuration">
+                            <Grid Name="LightPanel" Visibility="Visible">
+                                <Grid.ColumnDefinitions> <ColumnDefinition Width="*"/> <ColumnDefinition Width="*"/> <ColumnDefinition Width="*"/> <ColumnDefinition Width="*"/> </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions> <RowDefinition Height="*"/> <RowDefinition Height="*"/> <RowDefinition Height="*"/> <RowDefinition Height="*"/> </Grid.RowDefinitions>
+                                <TextBlock Text="Ac" TextAlignment="Center" Grid.Column="0" Grid.Row="0" />
+                                <TextBlock Text="Al" TextAlignment="Center" Grid.Column="1" Grid.Row="0" />
+                                <TextBlock Text="Aq" TextAlignment="Center" Grid.Column="2" Grid.Row="0" />
+                                <TextBlock Text="Color " TextAlignment="Center" Grid.Column="3" Grid.Row="0" />
+                                <xctk:DoubleUpDown Name="LightPanelAc" Grid.Column="0" Grid.Row="1" ValueChanged="LightParameterChanged" Tag="0" Minimum="0.00001" Increment="1" />
+                                <xctk:DoubleUpDown Name="LightPanelAl" Grid.Column="1" Grid.Row="1" ValueChanged="LightParameterChanged" Tag="1" Minimum="0.00001" Increment="0.04" />
+                                <xctk:DoubleUpDown Name="LightPanelAq" Grid.Column="2" Grid.Row="1" ValueChanged="LightParameterChanged" Tag="2" Minimum="0.00001" Increment="0.01"  />
+                                <xctk:ColorPicker Grid.Row="1" Grid.Column="3" Height="25"
+                                                  VerticalAlignment="Top"
+                                                  SelectedColorChanged="ColorPicker_OnSelectedColorChanged" />
+                                <TextBlock Text="X" TextAlignment="Center" Grid.Column="0" Grid.Row="2" />
+                                <TextBlock Text="Y" TextAlignment="Center" Grid.Column="1" Grid.Row="2" />
+                                <TextBlock Text="Z" TextAlignment="Center" Grid.Column="2" Grid.Row="2" />
+                                <xctk:DoubleUpDown Name="LightPanelX" Grid.Column="0" Grid.Row="3" ValueChanged="LightParameterChanged" Tag="3" />
+                                <xctk:DoubleUpDown Name="LightPanelY" Grid.Column="1" Grid.Row="3" ValueChanged="LightParameterChanged" Tag="4"/>
+                                <xctk:DoubleUpDown Name="LightPanelZ" Grid.Column="2" Grid.Row="3" ValueChanged="LightParameterChanged" Tag="5" />
+                            </Grid>
+                    </GroupBox>
+                    <WrapPanel Name="WrapPanelLight" Background="Goldenrod" ItemHeight="51" ItemWidth="51"/>
+                </StackPanel>
+            </GroupBox>
+            
+        </StackPanel>
+        </ScrollViewer>
+
+               <!-- HorizontalAlignment="Center" -->
+               <!-- VerticalAlignment="Center" -->
+        <Image Grid.Column="1"
+               Width="800"
+               Height="100"
+               Name="PaintSurface"
+               MouseMove="OnMouseMove" />
+    </Grid>
+</Window>

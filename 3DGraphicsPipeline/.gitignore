@@ -1,0 +1,6 @@
+ShapeDrafter/bin/
+ShapeDrafter/obj/
+.idea/
+**/.idea
+*.exe
+*.pdb
