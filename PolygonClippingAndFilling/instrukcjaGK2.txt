@@ -1,0 +1,15 @@
+Instrukcja do zadania 2 z GK - Rafał Chabasiński
+Opisy przycisków po kolei:
+1. Tworzenie wielokąta - należy wybrać kolejne punkty na ekranie,
+żeby zakończyć tworzenie należy kliknąć na wierzchołek początkowy
+2. Usuwanie wielokąta
+3. Przesuwanie wierzchołków wielokąta
+4. Przesuwanie całego wielokąta
+5. Po wybraniu tej opcji, gdy klikniemy na jakieś miejsce na ekranie źródło światła przeniesie się w to miejsce
+6. Zielony ProgressBar - ustalanie wysokości światła, na lewo nisko, na prawo wysokości
+7. Wybór koloru światła z listy
+8. Przycisk "Start/Stop" - sprawia że wygenerowane wielokąty wypukłe przesuwają się na prawo po ekranie
+9. Przycisk "Generate" - Generuje losowy wielokąt wypukły z lewej strony ekranu
+10. Przycisk "Load Texture" - Pozwala na załadowanie tekstury z pliku .jpg lub .png
+11. Przycisk "Load Bumpmap" - Pozwala na załadowanie Bumpmapy z pliku .jpg lub .png
+12. ScrollBar "Animation Speed" - pozwala zmieniać prędkość animacji

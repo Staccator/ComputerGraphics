@@ -1,0 +1,111 @@
+﻿<Window x:Class="ShapeDrafter.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ShapeDrafter"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="MainWindow"
+        Width="1200"
+        Height="700"
+        Topmost="False"
+        WindowStartupLocation="CenterScreen"
+        x:Name="this"
+        Background="PeachPuff">
+        <!-- ResizeMode="NoResize" -->
+    <Grid Margin="15">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+
+        <ScrollViewer CanContentScroll="True" HorizontalScrollBarVisibility="Visible">
+            <Image Width="1600"
+                   Height="1200"
+                   Name="PaintSurface"
+                   MouseMove="OnMouseMove"
+                   MouseLeftButtonDown="OnMouseClicked" />
+        </ScrollViewer>
+        
+        <Grid Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="5*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <Image Name="RedHistogram" Width="130" Height="120"></Image>
+                <Image Name="GreenHistogram" Width="130" Height="120"></Image>
+                <Image Name="BlueHistogram" Width="130" Height="120"></Image>
+            </StackPanel>
+            <StackPanel Grid.Column="1">
+                <Button Content="Załaduj plik" Click="LoadTextureClick"></Button>
+                <GroupBox Header="Obszar zastosowań filtra">
+                    <StackPanel>
+                        <RadioButton Content="Cały obraz" IsChecked="True" Tag="0" Checked="AreaMethodOnChecked"/>
+                        <RadioButton Content="Pędzel kołowy" Tag="1" Checked="AreaMethodOnChecked"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Slider Width="140" ValueChanged="Slider_OnValueChanged"></Slider>
+                            <Label Name="RadiusLabel" Content="0"></Label>
+                        </StackPanel>
+                        <RadioButton Content="Wielokąt" Tag="2" Checked="AreaMethodOnChecked"/>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Header="Wybór filtra macierzowego">
+                    <StackPanel>
+                        <RadioButton Content="Identyczność" IsChecked="True" Tag="0" Checked="MatrixMethodOnChecked"/>
+                        <RadioButton Content="Rozmycie" Tag="1" Checked="MatrixMethodOnChecked"/>
+                        <RadioButton Content="Wyostrzenie" Tag="2" Checked="MatrixMethodOnChecked"/>
+                        <RadioButton Content="Płaskorzeźba" Tag="3" Checked="MatrixMethodOnChecked"/>
+                        <RadioButton Content="Wykrywanie krawędzi" Tag="4" Checked="MatrixMethodOnChecked"/>
+                        <RadioButton Content="Własny" Tag="5" Checked="MatrixMethodOnChecked"/>
+                        <Label Content="Wybierz rozmiar własnej macierzy"></Label>
+                        <StackPanel Orientation="Horizontal">
+                            <xctk:IntegerUpDown Name="MatrixWidth" Value="3" Minimum="1" Width="100"></xctk:IntegerUpDown>
+                            <xctk:IntegerUpDown Name="MatrixHeight" Value="3" Minimum="1" Width="100"></xctk:IntegerUpDown>
+                        </StackPanel>
+                        <Button Margin="8" Content="Zatwierdź rozmiar własnej macierzy" Click="MatrixSizeClick"></Button>
+                        <Grid Name="Grid">
+                            <!-- <Grid.ColumnDefinitions> -->
+                            <!--     <ColumnDefinition Width="*"></ColumnDefinition> -->
+                            <!--     <ColumnDefinition Width="*"></ColumnDefinition> -->
+                            <!--     <ColumnDefinition Width="*"></ColumnDefinition> -->
+                            <!--     <ColumnDefinition Width="*"></ColumnDefinition> -->
+                            <!--     <ColumnDefinition Width="*"></ColumnDefinition> -->
+                            <!-- </Grid.ColumnDefinitions> -->
+                            <!-- <Grid.RowDefinitions> -->
+                            <!--     <RowDefinition Height="*"></RowDefinition> -->
+                            <!--     <RowDefinition Height="*"></RowDefinition> -->
+                            <!--     <RowDefinition Height="*"></RowDefinition> -->
+                            <!-- </Grid.RowDefinitions> -->
+                            <!-- <xctk:DoubleUpDown ValueChanged="CellValueChanged" Tag="0" Value="0" Grid.Row="0" Grid.Column="0"></xctk:DoubleUpDown> -->
+                            <!-- <xctk:DoubleUpDown ValueChanged="CellValueChanged" Tag="1" Value="0" Grid.Row="0" Grid.Column="1"></xctk:DoubleUpDown> -->
+                            <!-- <xctk:DoubleUpDown ValueChanged="CellValueChanged" Tag="2" Value="0" Grid.Row="0" Grid.Column="2"></xctk:DoubleUpDown> -->
+                            <!-- <xctk:DoubleUpDown ValueChanged="CellValueChanged" Tag="3" Value="0" Grid.Row="1" Grid.Column="0"></xctk:DoubleUpDown> -->
+                            <!-- <xctk:DoubleUpDown ValueChanged="CellValueChanged" Tag="4" Value="0" Grid.Row="1" Grid.Column="1"></xctk:DoubleUpDown> -->
+                            <!-- <xctk:DoubleUpDown ValueChanged="CellValueChanged" Tag="5" Value="0" Grid.Row="1" Grid.Column="2"></xctk:DoubleUpDown> -->
+                            <!-- <xctk:DoubleUpDown ValueChanged="CellValueChanged" Tag="6" Value="0" Grid.Row="2" Grid.Column="0"></xctk:DoubleUpDown> -->
+                            <!-- <xctk:DoubleUpDown ValueChanged="CellValueChanged" Tag="7" Value="0" Grid.Row="2" Grid.Column="1"></xctk:DoubleUpDown> -->
+                            <!-- <xctk:DoubleUpDown ValueChanged="CellValueChanged" Tag="8" Value="0" Grid.Row="2" Grid.Column="2"></xctk:DoubleUpDown> -->
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Label Content="Dzielnik" Grid.Row="1" Grid.Column="0"></Label>
+                            <xctk:DoubleUpDown IsEnabled="{Binding ElementName=Divider, Path=IsChecked}" ValueChanged="UserValuesChanged" Tag="1"  Value="0" Grid.Row="1" Grid.Column="1"></xctk:DoubleUpDown>
+                        </Grid>
+                            <CheckBox x:Name="Divider" Content="Manualne wyznaczanie dzielnika" IsChecked="False"></CheckBox>
+                <Button Content="Cofnij obraz do stanu początkowego" Click="ExecuteClearClick"></Button>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </Grid>
+
+    </Grid>
+</Window>

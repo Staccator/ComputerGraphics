@@ -1,0 +1,17 @@
+Instrukcja
+1. Obraz ładujemy za pomocą przycisku "Załaduj plik"
+2. W GroupBoxie "Obszar zastosowań filtra" wybieramy na jakim obszarze ma zadziałać filtr macierzowy
+    a) "Cały obszar" - filtr zostanie nałożony na cały obrazek, aby go zaaplikować klikamy w dowolne miejsce na obrazku
+    b) "Pędzel kołowy" - gdy mamy wybrany ten RadioBox, przesuwając po obrazie myszką z wciśniętym LPM będziemy
+       w kolejnych miejscach aplikować filtr macierzowy na obszarze w kształcie koła.
+       Sliderem wybieramy długość promienia koła
+    c) "Wielokąt" - po wybraniu tej opcji należy klikąć co najmniej 3 razy w różnych miejscach ekranu, w ten sposób
+       z kolejnymi kliknięciami tworzymy krawędzie wielokąta. Żeby zakończyć tworzenie wielokąta klikamy na wierzchołek startowy.
+       Po tym wszystkim wnętrze wielokąta będzie objęte filtrem.
+3. GroupBox "Wybór filtra macierzowego" - wybieramy jedną z dostępnych opcji filtra.
+    Dodakowo po wybraniu RadioBoxa "Własny" możemy określić własną macierz filtra. Najpierw wybieramy szerokość oraz wysokość
+    macierzy filtra, aby ją zatwierdzić klikamy w przycisk "Zatwierdź rozmiar własnej macierzy".
+    Potem wpisujemy odpowiednie wartości w komórki.
+    Po zaznaczeniu opcji "Manualne wyznaczanie dzielnika" możemy wybrać wartość przez jaką dzielone będą wagi pixeli.
+
+4. Przycisk "Cofnij obraz do stanu początkowego" czyści działanie wszelakich filtrów.
